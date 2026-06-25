@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Тест по географии Кыргызстана – 100 вопросов</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #d4e3f7 0%, #b8cfe0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 15px 10px;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 25px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .progress-area {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #2c4b68;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e2ebf5;
+            border-radius: 20px;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #1e5a8a;
+            width: 0%;
+            border-radius: 20px;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: #f9fcff;
+            border-radius: 20px;
+            padding: 20px 16px;
+            border: 1px solid #dbe7f3;
+            min-height: 200px;
+        }
+
+        .question-number {
+            font-size: 0.9rem;
+            color: #5c7892;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #152b3f;
+            line-height: 1.4;
+            margin-bottom: 18px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 10px 0 5px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 14px 16px;
+            background: white;
+            border: 1.5px solid #dce5f0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            color: #20384a;
+            min-height: 52px;
+            user-select: none;
+        }
+
+        .option:hover {
+            background: #ecf3fc;
+            border-color: #9bb7d4;
+        }
+
+        .option input[type="radio"] {
+            margin-right: 12px;
+            accent-color: #1e5a8a;
+            transform: scale(1.2);
+            flex-shrink: 0;
+        }
+
+        .option label {
+            cursor: pointer;
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        .option.correct {
+            background: #d9f0db;
+            border-color: #7fb583;
+            font-weight: 500;
+        }
+
+        .option.incorrect {
+            background: #ffe1e1;
+            border-color: #e09090;
+            font-weight: 500;
+        }
+
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.9;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 14px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            letter-spacing: 0.3px;
+            min-width: 160px;
+        }
+
+        .btn-primary {
+            background: #1e5a8a;
+            color: white;
+            box-shadow: 0 6px 14px rgba(30, 90, 138, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #134269;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: #f0f4fa;
+            color: #2a4055;
+            border: 1px solid #cbddec;
+        }
+
+        .btn-outline:hover {
+            background: #e1eaf3;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            pointer-events: none;
+            transform: none;
+        }
+
+        .result-box {
+            background: #f0f6fe;
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #1e3b5c;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .result-box.show {
+            display: block;
+        }
+
+        .result-perfect {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .result-good {
+            background: #d9ebfa;
+            color: #0c3957;
+        }
+
+        .result-ok {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .result-low {
+            background: #ffe3e3;
+            color: #8b2c2c;
+        }
+
+        .mistakes-list {
+            margin-top: 20px;
+            text-align: left;
+            font-weight: 400;
+            font-size: 0.95rem;
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            border: 1px solid #dce5f0;
+        }
+
+        .mistake-item {
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eef3f9;
+        }
+
+        .mistake-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .correct-answer-text {
+            color: #2e7d32;
+            font-weight: 600;
+        }
+
+        .user-answer-text {
+            color: #b71c1c;
+            font-weight: 600;
+        }
+
+        /* Адаптация для мобильных телефонов */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px 6px;
+            }
+
+            .container {
+                padding: 18px 12px 16px;
+                border-radius: 22px;
+                gap: 14px;
+            }
+
+            .question-card {
+                padding: 16px 12px;
+            }
+
+            .question-text {
+                font-size: 1.05rem;
+                margin-bottom: 14px;
+            }
+
+            .option {
+                padding: 12px 14px;
+                font-size: 0.95rem;
+                min-height: 48px;
+                gap: 8px;
+            }
+
+            .option input[type="radio"] {
+                margin-right: 8px;
+                transform: scale(1.15);
+            }
+
+            .btn {
+                padding: 12px 24px;
+                font-size: 0.95rem;
+                min-width: 140px;
+                border-radius: 36px;
+            }
+
+            .progress-text {
+                font-size: 0.8rem;
+            }
+
+            .result-box {
+                font-size: 1.1rem;
+                padding: 16px;
+            }
+
+            .mistakes-list {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .question-text {
+                font-size: 1rem;
+            }
+            .option {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+                min-height: 44px;
+            }
+            .btn {
+                padding: 10px 18px;
+                font-size: 0.9rem;
+                min-width: 130px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="progress-area">
+            <div class="progress-text">
+                <span id="current-question-label">Вопрос 1 из 100</span>
+                <span id="progress-percent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <div class="question-card" id="question-card"></div>
+
+        <div class="action-buttons" id="action-buttons">
+            <button class="btn btn-primary" id="check-btn">✔ Ответить</button>
+        </div>
+
+        <div id="result-summary" class="result-box"></div>
+    </div>
+
+    <script>
+        (function() {
+            const questions = [
+                { text: "Какие растения входят в состав эфемеров?", options: ["растения имеющие специальные ткани для запаса воды.", "род вечнозеленных деревьев и кустарников", "растения имеющие короткий вегетационный период.", "род травянистых водных растений", "растения сухих мест обитания"], answer: "c" },
+                { text: "Какова максимальная глубина озера Иссык-Куль?", options: ["702м", "668м", "805м", "726м", "610м"], answer: "b" },
+                { text: "Чему равна протяженность Кыргызской Республики с севера на юг?", options: ["378км", "454км", "502км", "498км", "623км"], answer: "b" },
+                { text: "Какой ГЭС в Кыргызстане имеет мощность 800МВт?", options: ["Ат-Башинский", "Шамалдысайская", "Учкурганская", "Курпсайская", "Камбаратинская -2"], answer: "d" },
+                { text: "На каком горном хребте расположен пик Победы?", options: ["хр.Кунгей Ала-Тоо", "хр.Боз-Кыр", "хр.Хан-Тенгри", "хр.Тескей Ала-Тоо", "хр.Борколдой Тоо"], answer: "b" },
+                { text: "Какое полезное ископаемое добывается в месторождении Ачык-Таш?", options: ["олово", "вольфрам", "сурьма", "серный колчедан", "золото"], answer: "d" },
+                { text: "Какой ледник является самым крупным в Кыргызстане?", options: ["Южный Энильчек", "Мушкетова", "Корженевский", "Кайынды", "Северный Энильчек"], answer: "a" },
+                { text: "Галлерея Саймалуу Таш находится.......", options: ["в Ат-Башинском районе", "в Лейлексом районе", "в Алайском районе", "в Базар -Коргонском районе", "в Тогуз-Тороузском районе"], answer: "e" },
+                { text: "Укажите самый густонаселенный район в Кыргызстане.", options: ["Сокулукский район", "Кара-Сууйский", "Араванский район", "Иссык-Кульский", "Московский район"], answer: "b" },
+                { text: "Какова доля площади лесов в Кыргызстане?", options: ["5%", "4,9%", "5,2%", "6,3%", "3,5%"], answer: "d" },
+                { text: "Где расположено сурьмяное месторождение Кыргызстана?", options: ["в Сулюкте", "в Мин-Куше", "в Курменти", "в Кадамжайе", "в Талдыбулаке"], answer: "d" },
+                { text: "Укажите максимальную глубину озера Сары-Челек?", options: ["234м", "348м", "201м", "519м", "464м"], answer: "a" },
+                { text: "Самая длинная река в Иссык-Кульской котловине?", options: ["р.Каракол", "р.Барскоон", "р.Тюп", "р.Жууку", "р.Ак-Суу"], answer: "c" },
+                { text: "Река Чуй протекает по территории 3 областей.....", options: ["Нарынской,Иссык-Кульской,Чуйской", "Иссык-Кульской,Нарынской,Джалал-Абадской", "Нарынской,Иссык-Кульской,Таласской", "Нарынской,Джалал-Абадской,Таласской", "Иссык-Кульской,Нарынской,Ошской"], answer: "a" },
+                { text: "Сарычат-Эрташский государственный заповедник расположен на территории.....", options: ["Нарынской обл.", "Ошской обл.", "Баткенской обл.", "Таласской обл.", "Иссык-Кульской обл."], answer: "e" },
+                { text: "Граница Кыргызской Республики с Китаем проходит по горному хребту…..", options: ["Ферганский хр.", "Чаткальский хр.", "хр.Молдо-Тоо", "хр.Какшал-Тоо", "хр.Чон-Алай"], answer: "d" },
+                { text: "В какой области Кыргызстана расположена Ак-Сайская долина?", options: ["в Таласской обл.", "в Нарынской обл.", "в Ошской обл.", "в Баткенской обл.", "Джалал-Абадской обл."], answer: "b" },
+                { text: "Перевалы «Отмок», «Ала-Бель», отделяет Чуйскую долину от ……", options: ["Ферганской долины", "Кочкорской долины", "Алайской долины", "Таласской долины", "Кетментюбинской долины"], answer: "d" },
+                { text: "Сколько районов по административно-территориальной единице?", options: ["40", "35", "42", "51", "39"], answer: "a" },
+                { text: "В каком городе Кыргызстана находится крупный цементно-шиферный комбинат?", options: ["в г.Токмок", "в г.Балыкчи", "в г.Бишкек", "в г.Кант", "в г.Ош"], answer: "d" },
+                { text: "Какой город Кыргызстана в 10-13вв. был крупным торговым и административным центром, мощной крепостью?(Узген)", options: ["г.Ош", "г.Токмок", "г.Узген", "г.Бишкек", "г.Каракол"], answer: "c" },
+                { text: "В каких городах Кыргызстана действуют сахарные заводы?", options: ["в г.Кант,в г.Токмак", "в г. Каинда ,в г. Шопоков", "в г.Талас,в г.Кара-Балта", "в г.Ош,в г.Бишкек", "в г.Кант,в г.Каинда"], answer: "b" },
+                { text: "Сколько международных аэропортов в республике?", options: ["6", "5", "4", "1", "3"], answer: "e" },
+                { text: "Какую основную функцию выполняет г. Кара-Балта?", options: ["научный", "куротный", "промышленный", "административный центр"], answer: "c" },
+                { text: "В каком городе Кыргызстана находится крупнейший в Средней Азии стекольный завод?", options: ["в г.Токмок", "в г.Бишкек", "в г.Ош", "в г.Таш-Кумыр", "в г.Токтогул"], answer: "a" },
+                { text: "В каком городе Кыргызстана расположен и действует авторемзавод?", options: ["в г.Кара-Балта", "в г.Чолпон-Ата", "в г.Токмок", "в г.Сулюкта", "в г.Кара-Суу"], answer: "c" },
+                { text: "У какаго населенного пункта в бассейне р. Чу добывают и обогащают руды цветных металлов?", options: ["Сумсарский", "Бордунский", "Чаувайский", "Найманский", "Жыргаланский"], answer: "b" },
+                { text: "Где на территории Кыргызстана возделывают семянную-сахарную свеклу?", options: ["в Таласской долине", "в Ферганской долине", "в Алайской долине", "в Чуйской долине", "в Нарынской долине"], answer: "d" },
+                { text: "Какая ткань не производится текстильной промышленностью Кыргызстана?", options: ["хлопчатобумажное", "льняное", "шерстяное", "трикотажное", "полушерстяное"], answer: "b" },
+                { text: "В каком городе Кыргызстана расположен камвольно-суконный комбинат?", options: ["в г.Бишкек", "в г.Ош", "в г.Нарын", "в г.Узген", "в г.Баткен"], answer: "a" },
+                { text: "Какие руды добываются в Сары-Джазском месторождении?", options: ["железные", "цветные", "медные", "асбестовые", "оловянные"], answer: "e" },
+                { text: "Площадь всех озёр, водохранилищ и мелких прудов на территории Кыргызстана?", options: ["5039", "6112", "6836", "5904", "4887"], answer: "c" },
+                { text: "Укажите высоту воды Чатыр-Кёл над уровнем моря?", options: ["3016м", "3520м", "4345м", "1878м", "2886м"], answer: "b" },
+                { text: "Сколько видов растений занесены в Красную книгу Кыргызской Республики?", options: ["89", "57", "78", "18", "24"], answer: "a" },
+                { text: "Назовите самую высокую вершину Кыргызского Ала-Тоо?", options: ["пик Корона", "пик Мугалим", "пик Адыгине", "пик Западный Аламедин", "пик Южный Аламедин"], answer: "d" },
+                { text: "Какой из горных хребтов окаймляет Чон-Кеминскую долину с севера?", options: ["Кунгей Ала-Тоо", "Кыргыз Ала-Тоо", "Заилийский Ала-Тоо", "Талас Ала-Тоо", "Тескей Ала-Тоо"], answer: "c" },
+                { text: "Назовите бессточное озеро внутренного Тянь-Шаня?", options: ["Чатыркуль", "Сонкуль", "Мерцбахер", "Колтёр", "Сарычелек"], answer: "a" },
+                { text: "Какой горный хребет окаймляет с севера Иссык-Кульскую котловину?", options: ["Тескей Ала-Тоо", "Какшал Тоо", "Молдо Тоо", "Кунгей Ала-Тоо", "Суусамыр Тоо"], answer: "d" },
+                { text: "Какое водохранилище построено на реке Чуй?", options: ["Папанское", "Кировское", "Кемпирабадское", "Базаркурганский", "Орто-Токойское"], answer: "e" },
+                { text: "«Улан» - самый сильный ветер Иссык-Куля, который дует?", options: ["с юго-востока", "с запада", "с северо-востока", "с юга", "с севера"], answer: "b" },
+                { text: "Сколько видов рыб обитают в озере Иссык-Куль?", options: ["7", "14", "18", "22", "35"], answer: "d" },
+                { text: "Какой горный хребет пересекает река Сары-Джаз?", options: ["хр.Какшаал-Тоо", "Алайский хр.", "Ферганский хр.", "Чаткальский хр.", "хр.Тескей Ала-Тоо"], answer: "a" },
+                { text: "Какую долину называют «Жемчужиной Средней Азии»?", options: ["Суусамырскую", "Чуйскую", "Нарынскую", "Ферганскую", "Алайскую"], answer: "d" },
+                { text: "Какой климат характерен для Внутренного Тянь-Шаня?", options: ["континентальный", "резко-континентальный", "умеренный", "субтропический", "муссоный"], answer: "b" },
+                { text: "Какова наибольшее количество атмосферных осадков в Кыргызстане?", options: ["1020 мм", "800мм", "750мм", "550мм", "900мм"], answer: "a" },
+                { text: "Длина реки Нарын составляет?", options: ["686 км", "586км", "721км", "535км", "702км"], answer: "d" },
+                { text: "Какому типу озера относится озеро Сары-Челек?", options: ["ледниковое", "тектоническое", "завальное", "карстовое", "старица"], answer: "c" },
+                { text: "Какова длина самого крупного ледника в Кыргызстане - южного Энилчека?", options: ["58,9 км", "61км", "48км", "49,8км", "51,7км"], answer: "a" },
+                { text: "Какой ландшафт на территории Кыргызстана преобладает на высоте от 2700 до 3500 м над уровнем моря?", options: ["степи", "лесостепи", "таежные леса", "субальпийские луга", "полустепи"], answer: "d" },
+                { text: "Какой госзаповедник был организован первым на территории Кыргызстана?", options: ["Нарынский", "Сары-Челекский (биосферный)", "Беш-Аральский", "Иссык-Кульский", "Падыш-Атинский"], answer: "d" },
+                { text: "Общая площадь Алайской долины составляет?", options: ["22080 км2", "26000 км2", "8400 км2", "6800 км2", "3000 км2"], answer: "c" },
+                { text: "Какой из госзаповедников находится в Иссык-Кульской области?", options: ["Кулун-Атинский госзаповедник", "Сарычат-Эрташский госзаповедник", "Иссык-Кульский госзаповедник", "Сары-Челекский госзаповедник", "Дашманский госзаповедник"], answer: "c" },
+                { text: "Сколько видов рыб занесены в Красную книгу Кыргызской Республики?", options: ["4", "15", "10", "19", "7"], answer: "e" },
+                { text: "Длина реки Кара-Дарыя составляет?", options: ["150 км", "123 км", "177 км", "277 км", "209км"], answer: "c" },
+                { text: "Какой госзаповедник был организован с целью сохранения эндемичного животного сурка Мензбира?", options: ["Нарынский", "Сары-Челекский (биосферный)", "Беш-Аральский", "Иссык-Кульский", "Сурматашский"], answer: "c" },
+                { text: "Сколько процентов людей в возрасте от 15 до 65 лет в Кыргызстане?", options: ["58,5%", "65,4%", "78,3%", "49,8%", "71,8%"], answer: "b" },
+                { text: "Каково главное направление животноводства в республике?", options: ["овцеводство", "яководство", "коневодство", "свиноводство", "крупный рогатый скот"], answer: "a" },
+                { text: "Территории, отличающиеся особой экологической и эстетической ценностью, с дифференцированным охранным режимом – это …", options: ["природные парки", "заказники", "лесные заказники", "памятники природы", "заповедники"], answer: "a" },
+                { text: "Сколько видов птиц занесены в Красную книгу Кыргызской Республики?", options: ["65", "57", "100", "17", "24"], answer: "b" },
+                { text: "Какой государственный природный парк был организован первым на территории Кыргызстана?", options: ["Ала-Арча", "Кыргыз-Ата", "Кара-Шоро", "Беш-Таш", "Каракол"], answer: "a" },
+                { text: "Общая площадь Юго-Западного Тянь-Шаня составляет?", options: ["22080 км2", "12900 км2", "69700 км2", "80900", "26000 км2"], answer: "e" },
+                { text: "В какой долине Кыргызстана выведена аулиэатинская порода скота молочно-мясного направления?", options: ["Чуйская", "Средненарынская", "Алайская", "Иссык-Кульская", "Таласская"], answer: "e" },
+                { text: "По производству, какого металла Кыргызстан занимает ведущее место в СНГ?", options: ["сурьмы", "железа", "алюминия", "меди", "свинца"], answer: "a" },
+                { text: "Территории в которых охраняются отдельные компоненты природных комплексов?", options: ["природные парки", "лесные хозяйства", "батанические сады", "заказники", "заповедники"], answer: "d" },
+                { text: "Сколько видов млекопитающих занесены в Красную книгу Кыргызской Республики?", options: ["12", "74", "38", "57", "24"], answer: "e" },
+                { text: "Общая площадь Внутреннего Тянь-Шаня составляет?", options: ["22080 км2", "12900 км2", "34000 км2", "69700 км2", "26000 км2"], answer: "d" },
+                { text: "Кыргызская тонкорунная порода овец выведена:", options: ["в Таласской долине", "в Кугартской долине", "в Кетмен-Тюбинской долине", "в Алайской долине", "в Кочкорской долине"], answer: "a" },
+                { text: "Самый старый центр добычи угля в Кыргызстане?", options: ["Узген", "Сулюкта", "Таш-Кумыр", "Джергалан", "Минкуше"], answer: "b" },
+                { text: "Сколько геологических заказников действует на территории Кыргызстана?", options: ["10", "12", "23", "19", "8"], answer: "d" },
+                { text: "На территории Кыргызстана из пригодной для сельского хозяйства земель, сколько процентов занимают пашни?", options: ["12,3%", "20,6%", "30,7%", "6,1%", "10,5%"], answer: "a" },
+                { text: "Общая длина рек и речек длиной более 10 км, общая протяженность, которых составляет Кыргызстана?", options: ["около 39 тыс. км.", "около 25 тыс. км.", "около 35 тыс. км", "около 28 тыс. км", "около 44тыс.км"], answer: "c" },
+                { text: "Сколько видов амфибий занесены в Красную книгу Кыргызской Республики?", options: ["8", "2", "4", "10", "3"], answer: "b" },
+                { text: "Расстояние от западной точки до восточной точки Кыргызстана?", options: ["854 км", "925 км", "1006 км", "986 км", "454км"], answer: "b" },
+                { text: "Абсолютная высота уровня воды озера Ысык-Кёл?", options: ["1430 м.", "1240 м.", "1607 м.", "1704 м.", "1856м"], answer: "c" },
+                { text: "Сколько ботанических заказников действует на территории Кыргызстана?", options: ["10", "19", "12", "23", "15"], answer: "d" },
+                { text: "Общая площадь Ыссык-Кульской котловины составляет?", options: ["22080 км2", "12900 км2", "69700 км2", "26000 км2", "16090 км2"], answer: "a" },
+                { text: "На территории Кыргызстана из пригодной для сельского хозяйства земель, сколько процентов занимают пастбища?", options: ["75,3%", "85,6%", "90,7%", "48,1%", "55%"], answer: "b" },
+                { text: "В какой области Кыргызстана находится Макмальское месторождение золота?", options: ["Жалал-Абадская", "Иссык-Кульская", "Нарынская", "Таласская", "Баткенская"], answer: "a" },
+                { text: "Какова высшая форма охраны природных участков?", options: ["национальный парк", "заказник", "заповедник", "все ответы верны"], answer: "c" },
+                { text: "Сколько видов насекомых занесены в Красную книгу Кыргызской Республики?", options: ["34", "7", "23", "18", "12"], answer: "d" },
+                { text: "Высота воды Сонкёл над уровнем моря?", options: ["3480 м.", "3000 м.", "3510 м.", "2880м", "3016 м."], answer: "e" },
+                { text: "Сколько Государственных природных парков на территории Кыргызской Республики?", options: ["16", "10", "13", "29", "18"], answer: "c" },
+                { text: "Сколько госзаповедников действует на территории Кыргызской Республики?", options: ["16", "10", "5", "9", "21"], answer: "b" },
+                { text: "Сколько лесных заказников действует на территории Кыргызстана?", options: ["8", "12", "23", "19", "3"], answer: "a" },
+                { text: "В какой реке Кыргызстана построен поселок гидростроителей «Достук»?", options: ["Нарын", "Кызыл-Суу", "Чу", "Талас", "Каракол"], answer: "a" },
+                { text: "Сколько видов растений занесены в Красную книгу Кыргызской Республики?", options: ["120", "89", "25", "44", "67"], answer: "b" },
+                { text: "Высота воды Сары-Челек над уровнем моря?", options: ["1480 м.", "2014 м.", "1878 м.", "1650 м."], answer: "c" },
+                { text: "Сколько охотничьих заказников действует на территории Кыргызстана?", options: ["10", "12", "23", "19", "6"], answer: "b" },
+                { text: "По территории, каких областей республики проходит нефтепровод?", options: ["Ошская и Джалал-Абадская", "Иссык-Кульская", "Таласская", "Чуйская", "Баткенская"], answer: "a" },
+                { text: "Из чего получают масло на Кара-Суйском маслоэкстракционном заводе?", options: ["рапс", "хлопковые семена", "рис", "шалфей", "сои"], answer: "b" },
+                { text: "Сколько видов рептилий занесены в Красную книгу Кыргызской Республики?", options: ["39", "62", "98", "10", "16"], answer: "d" },
+                { text: "На территории какого госзаповедника обитает Благородный олень?", options: ["Падыша-Атинский", "Нарынский", "Беш-Аральский", "Иссык-Кульский", "Кулунатинский"], answer: "b" },
+                { text: "К какому типу по происхождению относятся крупные озера Кыргызстана?", options: ["ледниковое", "тектоническое", "завальное", "карстовое", "старица"], answer: "b" },
+                { text: "В какую речную систему впадает река Кёкёмерен?", options: ["Сырдарья", "Сарыжаз", "Чуй", "Нарын", "Талас"], answer: "d" },
+                { text: "Крупное месторождение мрамора в Кыргызстане?", options: ["Чычкан", "Ак-Туз", "Чангырташ", "Жеруй", "Иштемберди"], answer: "a" },
+                { text: "В какой области расположен Беш-Ташский природный парк?", options: ["в Нарыне", "в Баткене", "в Оше", "в Джалал-Абаде", "в Таласе"], answer: "e" },
+                { text: "Общая протяженность границ республики составляет .........", options: ["3870км", "4508км", "5502км", "6900км", "5998км"], answer: "b" },
+                { text: "Какова средняя плотность населения К.Р.?", options: ["13 чел. на кв.км.", "21 чел. на кв.км.", "35 чел. на кв.км", "50 чел. на кв.км.", "28чел.на кв.км"], answer: "c" },
+                { text: "В какой области Кыргызстана наблюдаются резкие различия в природных условиях между Западом и Востоком?", options: ["Таласская", "Иссык-Кульская", "Чуйская", "Нарынская", "Баткенская"], answer: "b" },
+                { text: "В какой области коренное население составляет 97%?", options: ["Таласская", "Нарынская", "Жалал-Абадская", "Иссык-Кульская", "Ошская"], answer: "b" }
+            ];
+
+            const totalQuestions = questions.length;
+            let currentIndex = 0;
+            let userAnswers = new Array(totalQuestions).fill(null);
+            let answerChecked = false;
+
+            const questionCard = document.getElementById('question-card');
+            const checkBtn = document.getElementById('check-btn');
+            const resultSummary = document.getElementById('result-summary');
+            const progressFill = document.getElementById('progress-fill');
+            const currentQLabel = document.getElementById('current-question-label');
+            const progressPercent = document.getElementById('progress-percent');
+            const actionButtons = document.getElementById('action-buttons');
+
+            function updateProgress() {
+                const answeredCount = userAnswers.filter(a => a !== null).length;
+                const percent = Math.round((answeredCount / totalQuestions) * 100);
+                progressFill.style.width = percent + '%';
+                progressPercent.textContent = percent + '%';
+                currentQLabel.textContent = `Вопрос ${currentIndex + 1} из ${totalQuestions}`;
+            }
+
+            function renderQuestion() {
+                const q = questions[currentIndex];
+                let html = `<div class="question-number">Вопрос ${currentIndex + 1}</div>`;
+                html += `<div class="question-text">${q.text}</div><div class="options" id="options-container">`;
+                const letters = ['a', 'b', 'c', 'd', 'e'];
+                q.options.forEach((optText, idx) => {
+                    const letter = letters[idx];
+                    const checkedAttr = (userAnswers[currentIndex] === letter) ? 'checked' : '';
+                    html += `
+                        <div class="option" data-letter="${letter}">
+                            <input type="radio" name="questionOption" value="${letter}" id="opt_${letter}" ${checkedAttr}>
+                            <label for="opt_${letter}">${optText}</label>
+                        </div>`;
+                });
+                html += `</div>`;
+                questionCard.innerHTML = html;
+
+                document.querySelectorAll('.option').forEach(optDiv => {
+                    optDiv.addEventListener('click', function(e) {
+                        if (answerChecked) return;
+                        const radio = this.querySelector('input[type="radio"]');
+                        if (radio) radio.checked = true;
+                    });
+                });
+
+                if (answerChecked && userAnswers[currentIndex] !== null) {
+                    highlightOptionsAfterCheck();
+                    disableOptions();
+                } else {
+                    enableOptions();
+                    document.querySelectorAll('.option').forEach(opt => opt.classList.remove('correct', 'incorrect'));
+                }
+
+                updateProgress();
+                updateButtonState();
+            }
+
+            function getSelectedLetter() {
+                const radio = document.querySelector('input[name="questionOption"]:checked');
+                return radio ? radio.value : null;
+            }
+
+            function highlightOptionsAfterCheck() {
+                const correctLetter = questions[currentIndex].answer;
+                const selectedLetter = userAnswers[currentIndex];
+                document.querySelectorAll('.option').forEach(opt => {
+                    const letter = opt.dataset.letter;
+                    opt.classList.remove('correct', 'incorrect');
+                    if (letter === correctLetter) opt.classList.add('correct');
+                    if (selectedLetter && letter === selectedLetter && selectedLetter !== correctLetter) opt.classList.add('incorrect');
+                });
+            }
+
+            function disableOptions() {
+                document.querySelectorAll('.option').forEach(opt => opt.classList.add('disabled'));
+                document.querySelectorAll('input[name="questionOption"]').forEach(r => r.disabled = true);
+            }
+
+            function enableOptions() {
+                document.querySelectorAll('.option').forEach(opt => opt.classList.remove('disabled'));
+                document.querySelectorAll('input[name="questionOption"]').forEach(r => r.disabled = false);
+            }
+
+            function updateButtonState() {
+                if (currentIndex === totalQuestions - 1 && answerChecked) {
+                    checkBtn.textContent = '🏁 Завершить тест';
+                } else if (answerChecked) {
+                    checkBtn.textContent = '⏩ Следующий вопрос';
+                } else {
+                    checkBtn.textContent = '✔ Ответить';
+                }
+                checkBtn.className = 'btn btn-primary';
+                checkBtn.disabled = false;
+            }
+
+            function handleCheckOrNext() {
+                if (!answerChecked) {
+                    const selected = getSelectedLetter();
+                    if (!selected) {
+                        alert('Пожалуйста, выберите вариант ответа.');
+                        return;
+                    }
+                    userAnswers[currentIndex] = selected;
+                    answerChecked = true;
+                    highlightOptionsAfterCheck();
+                    disableOptions();
+                    updateProgress();
+                    updateButtonState();
+                } else {
+                    if (currentIndex === totalQuestions - 1) {
+                        showFinalResult();
+                    } else {
+                        currentIndex++;
+                        answerChecked = false;
+                        renderQuestion();
+                    }
+                }
+            }
+
+            function showFinalResult() {
+                let correctCount = 0;
+                const mistakes = [];
+                for (let i = 0; i < totalQuestions; i++) {
+                    if (userAnswers[i] === questions[i].answer) {
+                        correctCount++;
+                    } else {
+                        const q = questions[i];
+                        const correctLetter = q.answer;
+                        const userLetter = userAnswers[i];
+                        const correctIdx = correctLetter.charCodeAt(0) - 97;
+                        const userIdx = userLetter ? userLetter.charCodeAt(0) - 97 : -1;
+                        const correctText = q.options[correctIdx] || 'неизвестно';
+                        const userText = userIdx >= 0 ? q.options[userIdx] : 'нет ответа';
+                        mistakes.push({
+                            index: i,
+                            questionText: q.text,
+                            correctAnswer: correctText,
+                            userAnswer: userText
+                        });
+                    }
+                }
+                const percent = Math.round((correctCount / totalQuestions) * 100);
+                let message = '';
+                let cssClass = '';
+                if (percent === 100) {
+                    message = `🎉 Идеально! Вы ответили правильно на все ${totalQuestions} вопросов.`;
+                    cssClass = 'result-perfect';
+                } else if (percent >= 85) {
+                    message = `👍 Отлично! Правильных ответов: ${correctCount} из ${totalQuestions} (${percent}%).`;
+                    cssClass = 'result-good';
+                } else if (percent >= 60) {
+                    message = `📘 Хорошо. Правильных ответов: ${correctCount} из ${totalQuestions} (${percent}%).`;
+                    cssClass = 'result-ok';
+                } else {
+                    message = `📚 Рекомендуем повторить материал. Правильных ответов: ${correctCount} из ${totalQuestions} (${percent}%).`;
+                    cssClass = 'result-low';
+                }
+
+                questionCard.style.display = 'none';
+                actionButtons.style.display = 'none';
+                document.querySelector('.progress-area').style.display = 'none';
+
+                let html = `<div class="${cssClass}" style="padding: 10px; border-radius: 12px;">${message}</div>`;
+                if (mistakes.length > 0) {
+                    html += `<div class="mistakes-list"><strong>Допущены ошибки (${mistakes.length}):</strong>`;
+                    mistakes.forEach(m => {
+                        html += `
+                            <div class="mistake-item">
+                                <span>❌ <b>Вопрос ${m.index + 1}:</b> ${m.questionText}</span><br>
+                                <span class="correct-answer-text">✓ Правильный: ${m.correctAnswer}</span><br>
+                                <span class="user-answer-text">✗ Ваш ответ: ${m.userAnswer}</span>
+                            </div>`;
+                    });
+                    html += `</div>`;
+                } else {
+                    html += `<div class="mistakes-list" style="text-align:center; color:#2e7d32;">✅ Все ответы верны!</div>`;
+                }
+
+                html += `<button class="btn btn-outline" id="reset-btn" style="margin-top:18px;">↺ Пройти заново</button>`;
+                resultSummary.innerHTML = html;
+                resultSummary.className = 'result-box show';
+                resultSummary.style.display = 'block';
+                document.getElementById('reset-btn').addEventListener('click', resetQuiz);
+                resultSummary.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            function resetQuiz() {
+                currentIndex = 0;
+                userAnswers = new Array(totalQuestions).fill(null);
+                answerChecked = false;
+                questionCard.style.display = 'block';
+                actionButtons.style.display = 'flex';
+                document.querySelector('.progress-area').style.display = 'block';
+                resultSummary.className = 'result-box';
+                resultSummary.innerHTML = '';
+                resultSummary.style.display = 'none';
+                renderQuestion();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            checkBtn.addEventListener('click', handleCheckOrNext);
+            renderQuestion();
+        })();
+    </script>
+</body>
+</html>
